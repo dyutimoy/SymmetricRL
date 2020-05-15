@@ -1,0 +1,56 @@
+{
+  "experiment_info": {
+    "base_dir": "/content/SymmetricRL/common",
+    "dependencies": [
+      "numpy==1.18.4",
+      "sacred==0.8.1",
+      "torch==1.5.0+cu101"
+    ],
+    "mainfile": "sacred_utils.py",
+    "name": "sacred_utils",
+    "repositories": [
+      {
+        "commit": "ad51c92eb4a59dccc6ee2eebc187d076b0d7ae6e",
+        "dirty": true,
+        "url": "https://github.com/dyutimoy/SymmetricRL.git"
+      }
+    ],
+    "sources": [
+      [
+        "sacred_utils.py",
+        "5c8c2ed39783af66a4294585bfc13d71"
+      ]
+    ]
+  },
+  "host_info": {
+    "ENV": {},
+    "cpu": "Intel(R) Xeon(R) CPU @ 2.20GHz",
+    "gpus": {
+      "driver_version": "418.67",
+      "gpus": [
+        {
+          "model": "Tesla P100-PCIE-16GB",
+          "persistence_mode": false,
+          "total_memory": 16280
+        }
+      ]
+    },
+    "hostname": "7577077d178e",
+    "os": [
+      "Linux",
+      "Linux-4.19.104+-x86_64-with-Ubuntu-18.04-bionic"
+    ],
+    "python_version": "3.6.9"
+  },
+  "start_time": [
+    2020,
+    5,
+    14,
+    21,
+    25,
+    46,
+    3,
+    135,
+    -1
+  ]
+}
