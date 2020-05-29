@@ -23,9 +23,11 @@ import torch
 from common.envs_utils import make_env
 from common.render_utils import StatsVisualizer
 from common.sacred_utils import ex
-
+import gym
 import symmetry.sym_envs
-from symmetry.env_utils import get_env_name_for_method
+from symmetry.env_utils import get_env_name_for_method#,register_symmetric_envs
+import pybullet,pybullet_envs
+
 
 
 @ex.config
@@ -45,18 +47,25 @@ def main(_config):
     assert args.env_name != ""
 
     env_name = args.env_name
+    print(env_name)
     env_name = get_env_name_for_method(args.env_name, args.mirror_method)
+
+    print(env_name)
 
     model_path = args.net or os.path.join(
         args.experiment_dir, "models", "{}_best.pt".format(env_name)
     )
 
-    env = make_env(env_name, render=True)
-    env.seed(1093)
+    print(model_path)
+    print("kysa",env_name)
+    env=gym.make(env_name,render=True)
+    #env = make_env(env_name, render=True)
+    #env.seed(1093)
 
     print("Env: {}".format(env_name))
     print("Model: {}".format(os.path.basename(model_path)))
-
+    
+    
     if args.dump:
         args.plot = False
         max_steps = 2000
@@ -94,7 +103,7 @@ def main(_config):
     while step < max_steps:
         step += 1
 
-        if "Bullet" in args.env_name:
+        if 1:#"Bullet" in args.env_name:
             env.unwrapped._p.resetDebugVisualizerCamera(
                 3, 0, -5, env.unwrapped.robot.body_xyz
             )
@@ -108,6 +117,7 @@ def main(_config):
         cpu_actions = action.squeeze().cpu().numpy()
 
         obs, reward, done, _ = env.step(cpu_actions)
+        #input ("take step :") 
         ep_reward += reward
 
         if args.plot:
@@ -119,7 +129,7 @@ def main(_config):
                 ep_reward,
                 done,
                 strike,
-                env.unwrapped.camera._fps,
+                15,
             )
             prev_contact = contact
 
@@ -143,3 +153,4 @@ def main(_config):
         now_string = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         filename = os.path.join(dump_dir, "{}.mp4".format(now_string))
         clip.write_videofile(filename)
+    

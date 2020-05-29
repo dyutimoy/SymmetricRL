@@ -5,9 +5,9 @@ import os
 import gym
 import gym.spaces
 import gym.envs
-
+import pybullet_envs
 from .consts import MirrorMethods
-
+import darwin_gym
 
 class MirrorIndicesEnv(gym.Wrapper):
     """
@@ -207,7 +207,7 @@ class PhaseSymmetryEnv(MirrorIndicesEnv):
         env.get_mirror_indices = None
 
     def reset(self, **kwargs):
-        self.phase = 0 if self.np_random.uniform() < 0.5 else 0.5
+        self.phase = 0 if np.random.uniform() < 0.5 else 0.5
         return self.fix_obs(self.env.reset(**kwargs))
 
     def step(self, action):
@@ -216,25 +216,42 @@ class PhaseSymmetryEnv(MirrorIndicesEnv):
             action[self.neg_act_inds] *= -1
             action[self.lr_act_inds] = action[self.rl_act_inds]
         obs, reward, done, info = self.env.step(action)
+        debug=0
+        if debug:
+            print("observation:",self.fix_obs(obs))
+            print("action:",action)
         return self.fix_obs(obs), reward, done, info
 
     def fix_obs(self, obs):
+        debug=0
+        if debug:
+                print("phase:",self.phase)
+                print("observation org:",obs)
         if self.phase >= 0.5:
+            
             obs[self.neg_obs_inds] *= -1
+            if debug:
+                print("phase:",self.phase)
+                print("observation org:",obs)
             obs[self.lr_obs_inds] = obs[self.rl_obs_inds]
+            if debug:
+                print("phase:",self.phase)
+                print("observation org:",obs)
         return np.concatenate([[self.phase], obs])
 
 
 def register(id, **kvargs):
     if id in gym.envs.registration.registry.env_specs:
+        
         return
     else:
+
         return gym.envs.registration.register(id, **kvargs)
 
 
 def register_symmetric_envs(env_id, mirror_inds, gait_cycle_length=None, dt=None):
     env_name = env_id.split(":")[-1]
-
+    
     def make_mirror_env(*args, **kwargs):
         return MirrorIndicesEnv(
             env=gym.make(env_id, *args, **kwargs), minds=mirror_inds
@@ -248,7 +265,7 @@ def register_symmetric_envs(env_id, mirror_inds, gait_cycle_length=None, dt=None
 
     def make_phase_env(*args, **kwargs):
         return PhaseSymmetryEnv(
-            env=gym.make(env_id, *args, **kwargs),
+            env=gym.make(env_name, *args, **kwargs),
             minds=mirror_inds,
             gait_cycle_length=gait_cycle_length,
             dt=dt,
@@ -258,7 +275,9 @@ def register_symmetric_envs(env_id, mirror_inds, gait_cycle_length=None, dt=None
     register(id="Symmetric_%s" % env_name, entry_point=make_sym_env)
     register(id="SymmetricV2_%s" % env_name, entry_point=make_symv2_env)
     if gait_cycle_length is not None and dt is not None:
+        
         register(id="Phase_%s" % env_name, entry_point=make_phase_env)
+
 
 
 def get_env_name_for_method(env_name, mirror_method):

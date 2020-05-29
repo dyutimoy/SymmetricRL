@@ -180,6 +180,7 @@ class StatsVisualizer:
     def update_plot(self, value, action, tot_reward, done, contact, fps):
 
         self.data[0, self.step] = value
+        print(self.data.shape)
         self.data[1:, self.step] = action
 
         self.fps_label.set_text("{:02.1f}".format(fps))

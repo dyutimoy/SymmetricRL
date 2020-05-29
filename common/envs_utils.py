@@ -42,6 +42,7 @@ def make_env_fns(env_id, seed, rank, log_dir):
 
 
 def make_env(env_id, render=False):
+    print("sslol",env_id)
     env = gym.make(env_id, render=render)
     return env
 

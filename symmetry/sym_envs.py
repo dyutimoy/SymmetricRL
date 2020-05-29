@@ -63,7 +63,40 @@ register_symmetric_envs(
         "neg_act_inds": [0, 2],
         "left_act_inds": [7, 8, 9, 10, 14, 15, 16],
         "right_act_inds": [3, 4, 5, 6, 11, 12, 13],
-        "sideneg_act_inds": [11, 12],
+        "sideneg_act_inds":[11,12], #[11,12],
+    },
+)
+
+register_symmetric_envs(
+    "pybullet_envs:DarwinBulletEnv-v0",
+    gait_cycle_length=1,
+    dt=1 / 60,
+    mirror_inds={
+        #### observation:
+        "com_obs_inds": [
+            0,  # z
+            2,  # cos(yaw)
+            3,  # vx
+            5,  # vz
+            7,  # pitch
+            # common joints
+            
+        ],
+        "neg_obs_inds": [
+            1,  # sin(yaw)
+            4,  # vy
+            6,  # roll
+
+        ],
+        "left_obs_inds": list(range(20, 32)) + [34.35,38,39,42,43] + [45],
+        "right_obs_inds": list(range(8, 20)) +[32,33,36,37,40,41] + [44],
+        "sideneg_obs_inds": list(range(8, 20))+[32,33,40,41],
+        #### action:
+        "com_act_inds": [],
+        "neg_act_inds": [],
+        "left_act_inds": [6,7, 8, 9, 10,11, 13, 15, 17],
+        "right_act_inds": [0, 1, 2, 3, 4, 5, 12,14,16],
+        "sideneg_act_inds": [0, 1, 2, 3, 4, 5, 12,16],
     },
 )
 
