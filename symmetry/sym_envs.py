@@ -88,7 +88,7 @@ register_symmetric_envs(
             6,  # roll
 
         ],
-        "left_obs_inds": list(range(20, 32)) + [34.,5,38,39,42,43] + [45],
+        "left_obs_inds": list(range(20, 32)) + [34,35,38,39,42,43] + [45],
         "right_obs_inds": list(range(8, 20)) +[32,33,36,37,40,41] + [44],
         "sideneg_obs_inds": list(range(8, 20))+[32,33,40,41],
         #### action:
