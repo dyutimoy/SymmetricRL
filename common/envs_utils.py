@@ -25,7 +25,7 @@ import symmetry.sym_envs
 
 def make_env_fns(env_id, seed, rank, log_dir):
     def _thunk():
-        env = gym.make(env_id)
+        env = gym.make(env_id,render=False)
         env.seed(seed + rank)
 
         if str(env.__class__.__name__).find("TimeLimit") >= 0:

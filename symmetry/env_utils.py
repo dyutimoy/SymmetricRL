@@ -41,7 +41,7 @@ class MirrorIndicesEnv(gym.Wrapper):
         self.minds = minds
 
         env = self.unwrapped
-
+        print("gggg",len(minds["left_obs_inds"]))
         assert len(minds["left_obs_inds"]) == len(minds["right_obs_inds"])
         assert len(minds["left_act_inds"]) == len(minds["right_act_inds"])
         # *_in
@@ -250,7 +250,10 @@ def register(id, **kvargs):
 
 
 def register_symmetric_envs(env_id, mirror_inds, gait_cycle_length=None, dt=None):
-    env_name = env_id.split(":")[-1]
+    if("Darwin" in env_id):
+      env_name=env_id
+    else:  
+      env_name = env_id.split(":")[-1]
     
     def make_mirror_env(*args, **kwargs):
         return MirrorIndicesEnv(
@@ -281,12 +284,22 @@ def register_symmetric_envs(env_id, mirror_inds, gait_cycle_length=None, dt=None
 
 
 def get_env_name_for_method(env_name, mirror_method):
-    if mirror_method == MirrorMethods.net:
-        env_name = "Symmetric_" + env_name.split(":")[-1]
-    if mirror_method == MirrorMethods.net2:
-        env_name = "SymmetricV2_" + env_name.split(":")[-1]
-    elif mirror_method == MirrorMethods.loss or mirror_method == MirrorMethods.traj:
-        env_name = "Mirror_" + env_name.split(":")[-1]
-    elif mirror_method == MirrorMethods.phase:
-        env_name = "Phase_" + env_name.split(":")[-1]
+    if "Darwin" in env_name:
+      if mirror_method == MirrorMethods.net:
+          env_name = "Symmetric_" + env_name
+      if mirror_method == MirrorMethods.net2:
+          env_name = "SymmetricV2_" + env_name
+      elif mirror_method == MirrorMethods.loss or mirror_method == MirrorMethods.traj:
+          env_name = "Mirror_" + env_name
+      elif mirror_method == MirrorMethods.phase:
+          env_name = "Phase_" + env_name
+    else:
+      if mirror_method == MirrorMethods.net:
+          env_name = "Symmetric_" + env_name.split(":")[-1]
+      if mirror_method == MirrorMethods.net2:
+          env_name = "SymmetricV2_" + env_name.split(":")[-1]
+      elif mirror_method == MirrorMethods.loss or mirror_method == MirrorMethods.traj:
+          env_name = "Mirror_" + env_name.split(":")[-1]
+      elif mirror_method == MirrorMethods.phase:
+          env_name = "Phase_" + env_name.split(":")[-1]      
     return env_name
