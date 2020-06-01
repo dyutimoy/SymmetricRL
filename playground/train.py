@@ -62,7 +62,7 @@ def configs():
     cuda = torch.cuda.is_available()
     save_every = 1e7
     log_interval = 1
-    load_saved_controller = False
+    load_saved_controller = True
 
     # Sampling parameters
     episode_steps = 50000
@@ -264,13 +264,20 @@ def main(_seed, _config, _run):
         save_model = actor_critic
         if args.cuda:
             save_model = copy.deepcopy(actor_critic).cpu()
-
+        drive=1
+        if drive:
+          print("save")
+          torch.save(save_model, os.path.join("/content/gdrive/My Drive/Darwin", model_name))
         torch.save(save_model, os.path.join(args.save_dir, model_name))
 
         if len(episode_rewards) > 1 and np.mean(episode_rewards) > max_ep_reward:
             model_name = "{}_best.pt".format(env_name)
             max_ep_reward = np.mean(episode_rewards)
-            torch.save(save_model, os.path.join(args.save_dir, model_name))
+            drive=1
+            if drive:
+              print("max_ep_reward",max_ep_reward)
+              torch.save(save_model, os.path.join("/content/gdrive/My Drive/Darwin", model_name))
+            torch.save(save_model, os.path.join(args.save_dir, model_name))  
 
         if len(episode_rewards) > 1:
             end = time.time()
