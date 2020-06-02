@@ -34,7 +34,7 @@ import pybullet,pybullet_envs
 def config():
     net = None
     plot = False
-    dump = False
+    dump = True
     env_name = ""
     experiment_dir = "."
     assert experiment_dir != "."
@@ -58,7 +58,7 @@ def main(_config):
 
     print(model_path)
     print("kysa",env_name)
-    env=gym.make(env_name,render=True)
+    env=gym.make(env_name,render=False)
     #env = make_env(env_name, render=True)
     #env.seed(1093)
 
@@ -68,7 +68,7 @@ def main(_config):
     
     if args.dump:
         args.plot = False
-        max_steps = 2000
+        max_steps = 1000
         dump_dir = os.path.join(args.experiment_dir, "dump")
         image_sequence = []
 
@@ -134,7 +134,7 @@ def main(_config):
             prev_contact = contact
 
         if args.dump:
-            image_sequence.append(env.unwrapped.camera.dump_rgb_array())
+            image_sequence.append(env.unwrapped.render("rgb_array"))
 
         if done:
             if not args.plot:
@@ -149,7 +149,7 @@ def main(_config):
         import moviepy.editor as mp
         import datetime
 
-        clip = mp.ImageSequenceClip(image_sequence, fps=60)
+        clip = mp.ImageSequenceClip(image_sequence, fps=20)
         now_string = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         filename = os.path.join(dump_dir, "{}.mp4".format(now_string))
         clip.write_videofile(filename)
