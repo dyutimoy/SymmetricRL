@@ -88,15 +88,15 @@ register_symmetric_envs(
             6,  # roll
 
         ],
-        "left_obs_inds": list(range(16, 28)) + [30,31,34,35,38,39] + [41],
-        "right_obs_inds": list(range(8, 16)) +[28,29,32,33,36,37] + [40],
-        "sideneg_obs_inds": list(range(8, 16))+[28,29,36,37],
+        "left_obs_inds": list(range(16, 24)) + [26,27,30,31,34,35] + [37],
+        "right_obs_inds": list(range(8, 16)) +[24,25,28,29,32,33] + [36],
+        "sideneg_obs_inds": list(range(8, 16))+[24,25,32,33],
         #### action:
         "com_act_inds": [],
         "neg_act_inds": [],
-        "left_act_inds": [4,5, 6, 7, 8,9, 11, 13, 15],
-        "right_act_inds": [0, 1, 2, 3, 10,12,14],
-        "sideneg_act_inds": [0, 1, 2, 3, 12,14],
+        "left_act_inds": [4,5, 6, 7, 9, 11, 13],
+        "right_act_inds": [0, 1, 2, 3, 8,10,12],
+        "sideneg_act_inds": [0, 1, 2, 3, 10,12],
     },
 )
 
