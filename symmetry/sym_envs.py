@@ -90,7 +90,7 @@ register_symmetric_envs(
         ],
         "left_obs_inds": list(range(8, 14)) + [20,21,22,23,24,25,26,27,28,29,30,31] + [44],
         "right_obs_inds": list(range(14, 20)) +[32,33,34,35,36,37,38,39,40,41,42,43] + [45],
-        "sideneg_obs_inds": [14,15,18,19]+list(range(28, 36)),
+        "sideneg_obs_inds": [14,15,18,19]+list(range(32, 43)),
         #### action:
         "com_act_inds": [],
         "neg_act_inds": [],

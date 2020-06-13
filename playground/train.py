@@ -267,7 +267,7 @@ def main(_seed, _config, _run):
         drive=1
         if drive:
           #print("save")
-          torch.save(save_model, os.path.join("/content/gdrive/My Drive/darwin", model_name))
+          torch.save(save_model, os.path.join("/content/gdrive/My Drive/darwin2", model_name))
         torch.save(save_model, os.path.join(args.save_dir, model_name))
 
         if len(episode_rewards) > 1 and np.mean(episode_rewards) > max_ep_reward:
@@ -276,7 +276,7 @@ def main(_seed, _config, _run):
             drive=1
             if drive:
               #print("max_ep_reward",max_ep_reward)
-              torch.save(save_model, os.path.join("/content/gdrive/My Drive/darwin", model_name))
+              torch.save(save_model, os.path.join("/content/gdrive/My Drive/darwin2", model_name))
             torch.save(save_model, os.path.join(args.save_dir, model_name))  
 
         if len(episode_rewards) > 1:
